@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Details - Real Nigga SolutionZ</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/client-detail.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='/home'">
+                <i class="fas fa-rocket"></i>
+                <span>Real Nigga SolutionZ</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/clients" class="nav-link">Clients</a>
+                </li>
+                <li class="nav-item" id="boardsNavItem" style="display: none;">
+                    <a href="/boards" class="nav-link">Boards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings" class="nav-link">Settings</a>
+                </li>
+            </ul>
+            <div class="nav-actions" id="navActions" style="display: none;">
+                <div class="nav-action-buttons">
+                    <button class="nav-add-btn" id="addButton" onclick="toggleAddMenu()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="add-menu" id="addMenu">
+                        <a href="#" class="add-menu-item" onclick="openAddContactModal(); return false;">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Add Contact</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddTaskModal(); return false;">
+                            <i class="fas fa-tasks"></i>
+                            <span>Add Task</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddBoardModal(); return false;">
+                            <i class="fas fa-columns"></i>
+                            <span>Add Board</span>
+                        </a>
+                    </div>
+                    <div class="user-menu-dropdown">
+                        <button class="nav-user-btn" id="userMenuBtn" onclick="toggleUserMenu()">
+                            <div class="user-avatar" id="userInitials">U</div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                            <a href="/settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="handleLogout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Client Header -->
+    <div class="client-header">
+        <div class="container">
+            <button class="back-btn" onclick="window.location.href='/clients'">
+                <i class="fas fa-arrow-left"></i>
+                Back to Clients
+            </button>
+            <div class="client-header-content">
+                <div class="client-header-info">
+                    <h1 id="clientDisplayName">Loading...</h1>
+                    <div class="client-header-meta">
+                        <span class="status-badge" id="clientStatus">-</span>
+                        <span id="clientCompany">-</span>
+                        <span id="clientIndustry">-</span>
+                    </div>
+                </div>
+                <div class="client-header-actions">
+                    <button class="btn btn-outline" onclick="editClient()">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                    <button class="btn btn-primary" onclick="addActivity()">
+                        <i class="fas fa-plus"></i>
+                        Add Note
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Tabs -->
+    <div class="client-tabs-container">
+        <div class="container">
+            <div class="client-tabs">
+                <button class="tab-btn active" onclick="switchTab('overview')" data-tab="overview">
+                    <i class="fas fa-chart-line"></i>
+                    Overview
+                </button>
+                <button class="tab-btn" onclick="switchTab('projects')" data-tab="projects">
+                    <i class="fas fa-folder"></i>
+                    Projects
+                </button>
+                <button class="tab-btn" onclick="switchTab('tasks')" data-tab="tasks">
+                    <i class="fas fa-tasks"></i>
+                    Tasks
+                </button>
+                <button class="tab-btn" onclick="switchTab('activity')" data-tab="activity">
+                    <i class="fas fa-history"></i>
+                    Activity
+                </button>
+                <button class="tab-btn" onclick="switchTab('documents')" data-tab="documents">
+                    <i class="fas fa-file"></i>
+                    Documents
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="client-content">
+        <div class="container">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overviewTab">
+                <div class="overview-grid">
+                    <!-- Client Info Card -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-user"></i> Contact Information</h3>
+                        <div class="info-item">
+                            <label>Email:</label>
+                            <span id="infoEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone:</label>
+                            <span id="infoPhone">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Website:</label>
+                            <span id="infoWebsite">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Address:</label>
+                            <span id="infoAddress">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Business Info Card -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-briefcase"></i> Business Information</h3>
+                        <div class="info-item">
+                            <label>Client Type:</label>
+                            <span id="infoClientType">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Industry:</label>
+                            <span id="infoIndustry">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Lead Source:</label>
+                            <span id="infoLeadSource">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Preferred Communication:</label>
+                            <span id="infoCommunication">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Website Design Card -->
+                    <div class="info-card" id="websiteCard">
+                        <h3><i class="fas fa-globe"></i> Website Design</h3>
+                        <div class="info-item">
+                            <label>Current Website:</label>
+                            <span id="infoCurrentWebsite">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Platform:</label>
+                            <span id="infoPlatform">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Budget Range:</label>
+                            <span id="infoBudget">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Timeline:</label>
+                            <span id="infoTimeline">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Card -->
+                    <div class="info-card" id="socialCard">
+                        <h3><i class="fas fa-share-alt"></i> Social Media</h3>
+                        <div class="info-item">
+                            <label>Platforms:</label>
+                            <span id="infoPlatforms">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Posting Frequency:</label>
+                            <span id="infoPostingFreq">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Content Style:</label>
+                            <span id="infoContentStyle">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="stats-card">
+                        <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="projectsCount">0</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="tasksCount">0</div>
+                                <div class="stat-label">Tasks</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="activitiesCount">0</div>
+                                <div class="stat-label">Activities</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="documentsCount">0</div>
+                                <div class="stat-label">Documents</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Card -->
+                    <div class="info-card full-width">
+                        <h3><i class="fas fa-sticky-note"></i> Notes & Description</h3>
+                        <div class="notes-content">
+                            <div id="clientDescription">-</div>
+                            <div id="clientNotes" style="margin-top: 16px;">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div class="tab-content" id="projectsTab">
+                <div class="tab-header">
+                    <h2>Projects</h2>
+                    <button class="btn btn-primary" onclick="createProject()">
+                        <i class="fas fa-plus"></i>
+                        New Project
+                    </button>
+                </div>
+                <div id="projectsList" class="projects-list">
+                    <div class="loading-state">Loading projects...</div>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div class="tab-content" id="tasksTab">
+                <div class="tab-header">
+                    <h2>Tasks</h2>
+                    <button class="btn btn-primary" onclick="createTask()">
+                        <i class="fas fa-plus"></i>
+                        New Task
+                    </button>
+                </div>
+                <div id="tasksKanban" class="tasks-kanban">
+                    <!-- Kanban board will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Activity Tab -->
+            <div class="tab-content" id="activityTab">
+                <div class="tab-header">
+                    <h2>Activity Timeline</h2>
+                    <button class="btn btn-primary" onclick="addActivity()">
+                        <i class="fas fa-plus"></i>
+                        Add Activity
+                    </button>
+                </div>
+                <div id="activityTimeline" class="activity-timeline">
+                    <div class="loading-state">Loading activities...</div>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div class="tab-content" id="documentsTab">
+                <div class="tab-header">
+                    <h2>Documents</h2>
+                    <button class="btn btn-primary" onclick="uploadDocument()">
+                        <i class="fas fa-upload"></i>
+                        Upload Document
+                    </button>
+                </div>
+                <div id="documentsList" class="documents-list">
+                    <div class="loading-state">Loading documents...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Activity Modal -->
+    <div class="modal" id="activityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Activity</h2>
+                <button class="modal-close" onclick="closeActivityModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="activityForm" class="modal-form">
+                <div class="form-group">
+                    <label for="activityType">Activity Type <span class="required">*</span></label>
+                    <select id="activityType" name="activityType" required>
+                        <option value="note">Note</option>
+                        <option value="email">Email</option>
+                        <option value="phone_call">Phone Call</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="text_message">Text Message</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="activitySubject">Subject</label>
+                    <input type="text" id="activitySubject" name="activitySubject" placeholder="Subject (for emails/meetings)">
+                </div>
+                <div class="form-group">
+                    <label for="activityContent">Content <span class="required">*</span></label>
+                    <textarea id="activityContent" name="activityContent" rows="6" required placeholder="Enter activity details..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeActivityModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Activity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/lib/client-detail.js"></script>
+    <script src="/lib/nav-header.js"></script>
+    <script src="/lib/nav-authenticated.js"></script>
+    <script src="/lib/auth-check.js"></script>
+</body>
+</html>
+

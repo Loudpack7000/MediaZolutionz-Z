@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boards - Real Nigga SolutionZ</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/boards.css">
+    <link rel="stylesheet" href="/styles/client-modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='/'">
+                <i class="fas fa-rocket"></i>
+                <span>Real Nigga SolutionZ</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/clients" class="nav-link">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/boards" class="nav-link active">Boards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings" class="nav-link">Settings</a>
+                </li>
+            </ul>
+            <div class="nav-actions" id="navActions" style="display: none;">
+                    <div class="nav-action-buttons">
+                        <button class="nav-add-btn" id="addButton" onclick="toggleAddMenu()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="add-menu" id="addMenu">
+                            <a href="#" class="add-menu-item" onclick="openAddBoardModal(); return false;">
+                                <i class="fas fa-columns"></i>
+                                <span>Add Board</span>
+                            </a>
+                            <a href="#" class="add-menu-item" onclick="openAddTaskModal(); return false;">
+                                <i class="fas fa-tasks"></i>
+                                <span>Add Task</span>
+                            </a>
+                            <a href="#" class="add-menu-item" onclick="openAddContactModal(); return false;">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Add Contact</span>
+                            </a>
+                        </div>
+                        <div class="user-menu-dropdown">
+                            <button class="nav-user-btn" id="userMenuBtn">
+                                <i class="fas fa-user-circle"></i>
+                                <span>PM</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="user-dropdown-menu" id="userDropdown">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Boards Header -->
+    <div class="boards-header">
+        <div class="container">
+            <div class="boards-header-content">
+                <div class="boards-title-section">
+                    <h1>Boards</h1>
+                    <p>Manage your projects and tasks</p>
+                </div>
+                <div class="boards-actions">
+                    <button class="btn btn-outline" onclick="openCreateBoardModal()">
+                        <i class="fas fa-plus"></i>
+                        New Board
+                    </button>
+                    <button class="btn btn-primary" onclick="openAddTaskModal()">
+                        <i class="fas fa-plus"></i>
+                        Add Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boards Container -->
+    <div class="boards-container">
+        <div class="container">
+            <!-- Boards List -->
+            <div class="boards-list" id="boardsList">
+                <!-- Boards will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">
+                    <i class="fas fa-columns"></i>
+                </div>
+                <h2>No Boards Yet</h2>
+                <p>Create your first board to start managing projects</p>
+                <button class="btn btn-primary" onclick="openCreateBoardModal()">
+                    <i class="fas fa-plus"></i>
+                    Create Board
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Board View (Kanban) -->
+    <div class="board-view" id="boardView" style="display: none;">
+        <div class="board-header-bar">
+            <div class="container">
+                <div class="board-header-content">
+                    <button class="back-btn" onclick="showBoardsList()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Boards
+                    </button>
+                    <h2 id="boardViewTitle">Board Name</h2>
+                    <div class="board-header-actions">
+                        <button class="btn-icon" onclick="openAddTaskModal()" title="Add Task">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn-icon" onclick="openBoardSettings()" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kanban-container">
+            <div class="kanban-board" id="kanbanBoard">
+                <!-- Columns will be dynamically created here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Board Modal -->
+    <div class="modal-overlay" id="createBoardModal">
+        <div class="create-contact-modal">
+            <div class="modal-header">
+                <h2>Create Board</h2>
+                <button class="modal-close-btn" onclick="closeCreateBoardModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="createBoardForm" class="modal-form" onsubmit="submitCreateBoard(event); return false;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalBoardName">Board Name *</label>
+                        <input type="text" id="modalBoardName" name="boardName" required placeholder="e.g., Sales Pipeline">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalBoardColor">Board Color</label>
+                        <div class="color-picker">
+                            <input type="color" id="modalBoardColor" name="boardColor" value="#10B981" style="width: 60px; height: 40px; border-radius: 6px; border: 2px solid #e2e8f0; cursor: pointer;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-secondary" onclick="closeCreateBoardModal()">Cancel</button>
+                    <button type="submit" class="btn-modal-primary">
+                        <i class="fas fa-save"></i> Create Board
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="addTaskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Task</h2>
+                <button class="modal-close" onclick="closeAddTaskModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addTaskForm" class="modal-form">
+                <div class="form-group">
+                    <label for="taskBoard">Select Board</label>
+                    <select id="taskBoard" name="taskBoard" required>
+                        <option value="">Choose a board...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskColumn">Select Column</label>
+                    <select id="taskColumn" name="taskColumn" required>
+                        <option value="">Choose a column...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" name="taskTitle" required placeholder="Enter task title">
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" name="taskDescription" rows="4" placeholder="Add details about this task..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskAssignee">Assign To</label>
+                        <input type="text" id="taskAssignee" name="taskAssignee" placeholder="Initials (e.g., PM)">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority" name="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeAddTaskModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Contact to Board Modal -->
+    <div class="modal" id="addContactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Contact to Board</h2>
+                <button class="modal-close" onclick="closeAddContactModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-search">
+                    <input type="text" id="contactSearch" placeholder="Search contacts..." oninput="filterContacts()">
+                </div>
+                <div class="contacts-list" id="contactsList">
+                    <div class="loading-state">Loading contacts...</div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" onclick="closeAddContactModal()">Cancel</button>
+                <a href="/contacts/new" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Create New Contact
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/lib/board-modal.js"></script>
+    <script src="/lib/boards-api.js"></script>
+    <script src="/lib/nav-header.js"></script>
+    <script src="/lib/nav-authenticated.js"></script>
+    <script src="/lib/auth-check.js"></script>
+    <script>
+        // Redirect to login if not authenticated
+        if (localStorage.getItem('isLoggedIn') !== 'true' && sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>
+

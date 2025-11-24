@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Client - Real Nigga SolutionZ</title>
+    <link rel="stylesheet" href="/styles//styles.css">
+    <link rel="stylesheet" href="/styles//contact-form.css">
+    <link rel="stylesheet" href="/styles//client-form-enhanced.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='/home'">
+                <i class="fas fa-rocket"></i>
+                <span>Real Nigga SolutionZ</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/clients" class="nav-link">Clients</a>
+                </li>
+                <li class="nav-item" id="boardsNavItem" style="display: none;">
+                    <a href="/boards" class="nav-link">Boards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings" class="nav-link">Settings</a>
+                </li>
+            </ul>
+            <div class="nav-actions" id="navActions" style="display: none;">
+                <div class="nav-action-buttons">
+                    <button class="nav-add-btn" id="addButton" onclick="toggleAddMenu()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="add-menu" id="addMenu">
+                        <a href="#" class="add-menu-item" onclick="openAddContactModal(); return false;">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Add Contact</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddTaskModal(); return false;">
+                            <i class="fas fa-tasks"></i>
+                            <span>Add Task</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddBoardModal(); return false;">
+                            <i class="fas fa-columns"></i>
+                            <span>Add Board</span>
+                        </a>
+                    </div>
+                    <div class="user-menu-dropdown">
+                        <button class="nav-user-btn" id="userMenuBtn" onclick="toggleUserMenu()">
+                            <div class="user-avatar" id="userInitials">U</div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                            <a href="/settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="handleLogout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-form-container">
+        <!-- Scroll Progress Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-progress" id="scrollProgress"></div>
+        </div>
+
+        <!-- Enhanced Header -->
+        <div class="form-header">
+            <div class="form-header-content">
+                <h1>Add New Client</h1>
+                <p>Track and manage your client relationships</p>
+            </div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="form-progress">
+            <div class="progress-steps">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-step-circle">1</div>
+                    <div class="progress-step-label">Basic Info</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-step-circle">2</div>
+                    <div class="progress-step-label">Contact</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-step-circle">3</div>
+                    <div class="progress-step-label">Business</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="progress-step-circle">4</div>
+                    <div class="progress-step-label">Website</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="progress-step-circle">5</div>
+                    <div class="progress-step-label">Social</div>
+                </div>
+                <div class="progress-step" data-step="6">
+                    <div class="progress-step-circle">6</div>
+                    <div class="progress-step-label">Custom</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="clientForm" class="contact-form">
+                <!-- Basic Information Section -->
+                <div class="form-section" data-section="1">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Basic Information
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="displayName">Display Name <span class="required">*</span></label>
+                        <input type="text" id="displayName" name="displayName" required placeholder="Full name or business name">
+                        <small class="form-hint">This is how the client will appear in lists</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company/Business Name</label>
+                        <input type="text" id="company" name="company" placeholder="Company name">
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Contact Details Section -->
+                <div class="form-section" data-section="2">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-address-card"></i>
+                            Contact Details
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" id="website" name="website" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mainPhone">Main Phone</label>
+                            <input type="tel" id="mainPhone" name="mainPhone" placeholder="(555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="mobilePhone">Mobile Phone</label>
+                            <input type="tel" id="mobilePhone" name="mobilePhone" placeholder="(555) 123-4567">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Address Section -->
+                <div class="form-section" data-section="2">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Address
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-group">
+                        <label for="addressLine1">Address Line 1</label>
+                        <input type="text" id="addressLine1" name="addressLine1" placeholder="Street address">
+                    </div>
+                    <div class="form-group">
+                        <label for="addressLine2">Address Line 2</label>
+                        <input type="text" id="addressLine2" name="addressLine2" placeholder="Apartment, suite, etc.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" name="state" placeholder="State">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text" id="postalCode" name="postalCode" placeholder="ZIP/Postal code">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country" placeholder="Country" value="United States">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Business Details Section -->
+                <div class="form-section" data-section="3">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-briefcase"></i>
+                            Business Details
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientType">Client Type</label>
+                            <select id="clientType" name="clientType">
+                                <option value="">Select...</option>
+                                <option value="Small Business">Small Business</option>
+                                <option value="Enterprise">Enterprise</option>
+                                <option value="Startup">Startup</option>
+                                <option value="Non-Profit">Non-Profit</option>
+                                <option value="Individual">Individual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <select id="industry" name="industry">
+                                <option value="">Select...</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Restaurant">Restaurant</option>
+                                <option value="Fitness">Fitness</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Education">Education</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="status">Status <span class="required">*</span></label>
+                            <select id="status" name="status" required>
+                                <option value="Lead">Lead</option>
+                                <option value="Active" selected>Active</option>
+                                <option value="On Hold">On Hold</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Lost">Lost</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leadSource">Lead Source</label>
+                            <select id="leadSource" name="leadSource">
+                                <option value="">Select...</option>
+                                <option value="Referral">Referral</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Google Search">Google Search</option>
+                                <option value="Cold Outreach">Cold Outreach</option>
+                                <option value="Website Form">Website Form</option>
+                                <option value="Trade Show">Trade Show</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Client Description/Overview</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Brief overview of the client and their business..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Internal notes about this client..."></textarea>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Website Design Section -->
+                <div class="form-section" data-section="4">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-globe"></i>
+                            Website Design Information
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentWebsiteUrl">Current Website URL</label>
+                            <input type="url" id="currentWebsiteUrl" name="currentWebsiteUrl" placeholder="https://currentsite.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="currentWebsitePlatform">Current Website Platform</label>
+                            <select id="currentWebsitePlatform" name="currentWebsitePlatform">
+                                <option value="">Select...</option>
+                                <option value="WordPress">WordPress</option>
+                                <option value="Wix">Wix</option>
+                                <option value="Squarespace">Squarespace</option>
+                                <option value="Shopify">Shopify</option>
+                                <option value="Custom">Custom</option>
+                                <option value="None">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="websiteGoals">Website Goals</label>
+                        <textarea id="websiteGoals" name="websiteGoals" rows="3" placeholder="What do they want to achieve with their website?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="targetAudience">Target Audience</label>
+                        <textarea id="targetAudience" name="targetAudience" rows="2" placeholder="Who is their target audience?"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="brandColors">Brand Colors (comma-separated hex codes)</label>
+                            <input type="text" id="brandColors" name="brandColors" placeholder="#FF5733, #33FF57, #3357FF">
+                        </div>
+                        <div class="form-group">
+                            <label for="brandFonts">Brand Fonts (comma-separated)</label>
+                            <input type="text" id="brandFonts" name="brandFonts" placeholder="Arial, Helvetica, Roboto">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="brandGuidelinesUrl">Brand Guidelines URL</label>
+                        <input type="url" id="brandGuidelinesUrl" name="brandGuidelinesUrl" placeholder="https://brandguide.com">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectBudgetRange">Project Budget Range</label>
+                            <select id="projectBudgetRange" name="projectBudgetRange">
+                                <option value="">Select...</option>
+                                <option value="$1k-$5k">$1k-$5k</option>
+                                <option value="$5k-$10k">$5k-$10k</option>
+                                <option value="$10k-$25k">$10k-$25k</option>
+                                <option value="$25k+">$25k+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timelinePreference">Timeline Preference</label>
+                            <select id="timelinePreference" name="timelinePreference">
+                                <option value="">Select...</option>
+                                <option value="ASAP">ASAP</option>
+                                <option value="1-2 months">1-2 months</option>
+                                <option value="3-6 months">3-6 months</option>
+                                <option value="Flexible">Flexible</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="form-section" data-section="5">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-share-alt"></i>
+                            Social Media Information
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-group">
+                        <label>Social Media Platforms</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platform_instagram" name="socialPlatforms[]" value="Instagram">
+                                <label for="platform_instagram">Instagram</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platform_facebook" name="socialPlatforms[]" value="Facebook">
+                                <label for="platform_facebook">Facebook</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platform_linkedin" name="socialPlatforms[]" value="LinkedIn">
+                                <label for="platform_linkedin">LinkedIn</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platform_tiktok" name="socialPlatforms[]" value="TikTok">
+                                <label for="platform_tiktok">TikTok</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="platform_twitter" name="socialPlatforms[]" value="Twitter">
+                                <label for="platform_twitter">Twitter/X</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contentGoals">Content Goals</label>
+                        <textarea id="contentGoals" name="contentGoals" rows="3" placeholder="Engagement, brand awareness, sales, etc."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postingFrequency">Posting Frequency Preference</label>
+                            <select id="postingFrequency" name="postingFrequency">
+                                <option value="">Select...</option>
+                                <option value="Daily">Daily</option>
+                                <option value="3x/week">3x/week</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Bi-weekly">Bi-weekly</option>
+                                <option value="Monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentStyle">Content Style Preference</label>
+                            <select id="contentStyle" name="contentStyle">
+                                <option value="">Select...</option>
+                                <option value="Professional">Professional</option>
+                                <option value="Casual">Casual</option>
+                                <option value="Humorous">Humorous</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Inspirational">Inspirational</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="brandVoice">Brand Voice Description</label>
+                        <textarea id="brandVoice" name="brandVoice" rows="2" placeholder="Describe their brand voice and tone..."></textarea>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Communication Preferences -->
+                <div class="form-section" data-section="5">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-comments"></i>
+                            Communication Preferences
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                    <div class="form-group">
+                        <label for="preferredCommunication">Preferred Communication Method</label>
+                        <select id="preferredCommunication" name="preferredCommunication">
+                            <option value="">Select...</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone</option>
+                            <option value="Slack">Slack</option>
+                            <option value="Zoom">Zoom</option>
+                            <option value="Text Message">Text Message</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Custom Fields Section -->
+                <div class="form-section" id="customFieldsSection" data-section="6">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-cog"></i>
+                            Additional Custom Fields
+                        </h2>
+                        <button type="button" class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div id="customFieldsContainer"></div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="window.history.back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Create Client
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/lib/client-form.js"></script>
+    <script src="/lib/nav-header.js"></script>
+    <script src="/lib/nav-authenticated.js"></script>
+    <script src="/lib/auth-check.js"></script>
+</body>
+</html>
+

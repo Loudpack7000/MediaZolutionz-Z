@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Real Nigga SolutionZ</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/settings.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='/'">
+                <i class="fas fa-rocket"></i>
+                <span>Real Nigga SolutionZ</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/clients" class="nav-link">Clients</a>
+                </li>
+                <li class="nav-item" id="boardsNavItem" style="display: none;">
+                    <a href="/boards" class="nav-link">Boards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/settings" class="nav-link active">Settings</a>
+                </li>
+            </ul>
+            <div class="nav-actions" id="navActions" style="display: none;">
+                <div class="nav-action-buttons">
+                    <button class="nav-add-btn" id="addButton" onclick="toggleAddMenu()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="add-menu" id="addMenu">
+                        <a href="#" class="add-menu-item" onclick="openAddContactModal(); return false;">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Add Contact</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddTaskModal(); return false;">
+                            <i class="fas fa-tasks"></i>
+                            <span>Add Task</span>
+                        </a>
+                        <a href="#" class="add-menu-item" onclick="openAddBoardModal(); return false;">
+                            <i class="fas fa-columns"></i>
+                            <span>Add Board</span>
+                        </a>
+                    </div>
+                    <div class="user-menu-dropdown">
+                        <button class="nav-user-btn" id="userMenuBtn" onclick="toggleUserMenu()">
+                            <div class="user-avatar" id="userInitials">U</div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                            <a href="/settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="handleLogout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="settings-container">
+        <div class="settings-sidebar">
+            <div class="sidebar-section active">
+                <h3>General Settings</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#profile" class="active" onclick="showProfileTab(); return false;">Profile Information</a></li>
+                    <li><a href="#team-members" onclick="showTeamMembersTab(); return false;">Team Members</a></li>
+                    <li><a href="#contact-fields" onclick="showContactFieldsTab(); return false;">Contact Fields</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="settings-content">
+            <!-- Profile Information Tab -->
+            <div class="settings-tab" id="profileTab">
+                <div class="settings-header">
+                    <div class="settings-header-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h1>Profile Information</h1>
+                        <p>Manage your account details and preferences</p>
+                    </div>
+                </div>
+
+                <form id="profileForm" class="profile-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileFirstName">First Name</label>
+                                <input type="text" id="profileFirstName" name="firstName" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileLastName">Last Name</label>
+                                <input type="text" id="profileLastName" name="lastName" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileEmail">Email Address <span class="required">*</span></label>
+                                <input type="email" id="profileEmail" name="email" required placeholder="your.email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="profilePhone">Phone Number</label>
+                                <input type="tel" id="profilePhone" name="phone" placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Company Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileCompany">Company Name</label>
+                                <input type="text" id="profileCompany" name="company" placeholder="Your Company Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileJobTitle">Job Title</label>
+                                <input type="text" id="profileJobTitle" name="jobTitle" placeholder="Your Job Title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileWebsite">Website</label>
+                            <input type="url" id="profileWebsite" name="website" placeholder="https://yourwebsite.com">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Address</h3>
+                        <div class="form-group">
+                            <label for="profileAddress1">Address Line 1</label>
+                            <input type="text" id="profileAddress1" name="addressLine1" placeholder="Street address">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileAddress2">Address Line 2</label>
+                            <input type="text" id="profileAddress2" name="addressLine2" placeholder="Apartment, suite, etc. (optional)">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileCity">City</label>
+                                <input type="text" id="profileCity" name="city" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileState">State</label>
+                                <input type="text" id="profileState" name="state" placeholder="State">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileZip">ZIP Code</label>
+                                <input type="text" id="profileZip" name="zipCode" placeholder="ZIP Code">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Preferences</h3>
+                        <div class="form-group">
+                            <label for="profileTimezone">Timezone</label>
+                            <select id="profileTimezone" name="timezone">
+                                <option value="">Select timezone</option>
+                                <option value="America/New_York">Eastern Time (ET)</option>
+                                <option value="America/Chicago">Central Time (CT)</option>
+                                <option value="America/Denver">Mountain Time (MT)</option>
+                                <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="profileEmailNotifications" name="emailNotifications" checked>
+                                <span>Email Notifications</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="profileAss" name="ass">
+                                <span>Ass</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="profileTitties" name="titties">
+                                <span>Titties</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Team Members Tab -->
+            <div class="settings-tab" id="teamMembersTab" style="display: none;">
+                <div class="settings-header">
+                    <div class="settings-header-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h1>Team Members</h1>
+                        <p>View and manage users with accounts</p>
+                    </div>
+                </div>
+
+                <!-- Team Members Table -->
+                <div class="fields-table-container">
+                    <table class="fields-table" id="teamMembersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamMembersTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <div class="empty-message">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <p>Loading team members...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Contact Fields Tab -->
+            <div class="settings-tab" id="contactFieldsTab" style="display: none;">
+                <div class="settings-header">
+                    <div class="settings-header-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <h1>Contact Fields</h1>
+                        <p>Customize fields for your contacts</p>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn btn-primary" onclick="openAddFieldForm()">
+                        <i class="fas fa-plus"></i>
+                        Add Field
+                    </button>
+                </div>
+
+                <!-- Add/Edit Field Form -->
+                <div class="field-form-container" id="fieldFormContainer" style="display: none;">
+                    <form id="fieldForm" class="field-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fieldName">Field Name <span class="required">*</span></label>
+                                <input type="text" id="fieldName" name="fieldName" required 
+                                       placeholder="e.g., Roof Type" oninput="updateFieldKey()">
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldKey">Field Key <span class="required">*</span></label>
+                                <input type="text" id="fieldKey" name="fieldKey" required 
+                                       placeholder="e.g., roof_type" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fieldType">Field Type <span class="required">*</span></label>
+                                <select id="fieldType" name="fieldType" required onchange="toggleOptionsField()">
+                                    <option value="text">Text</option>
+                                    <option value="number">Number</option>
+                                    <option value="date">Date</option>
+                                    <option value="datetime">Date & Time</option>
+                                    <option value="dropdown">Dropdown</option>
+                                    <option value="multiselect">Multiselect (Checkbox Group)</option>
+                                    <option value="boolean">Boolean (Checkbox - Yes/No)</option>
+                                    <option value="email">Email</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="textarea">Textarea</option>
+                                    <option value="url">URL</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fieldSection">Section <span class="required">*</span></label>
+                                <select id="fieldSection" name="fieldSection" required>
+                                    <option value="basic">Basic Information</option>
+                                    <option value="contact_details">Contact Details</option>
+                                    <option value="custom">Custom Fields</option>
+                                    <option value="industry_specific">Industry Specific</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fieldPlaceholder">Placeholder</label>
+                            <input type="text" id="fieldPlaceholder" name="fieldPlaceholder" 
+                                   placeholder="Optional placeholder text">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fieldHelpText">Help Text</label>
+                            <textarea id="fieldHelpText" name="fieldHelpText" rows="2" 
+                                      placeholder="Optional help text shown below the field"></textarea>
+                        </div>
+
+                        <div class="form-group" id="optionsGroup" style="display: none;">
+                            <label for="fieldOptions">Options <span class="required">*</span></label>
+                            <input type="text" id="fieldOptions" name="fieldOptions" 
+                                   placeholder="Comma-separated: Option 1, Option 2, Option 3">
+                            <small class="form-hint">Enter options separated by commas</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="fieldRequired" name="fieldRequired">
+                                <span>Required Field</span>
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="cancelFieldForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="fieldSubmitBtn">Create Field</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Fields List -->
+                <div class="fields-table-container">
+                    <table class="fields-table" id="fieldsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Section</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fieldsTableBody">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <div class="empty-message">
+                                        <i class="fas fa-database"></i>
+                                        <p>No fields defined yet. Click "Add Field" to create your first custom field.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/lib/settings.js"></script>
+    <script src="/lib/nav-header.js"></script>
+    <script src="/lib/nav-authenticated.js"></script>
+    <script src="/lib/auth-check.js"></script>
+</body>
+</html>
